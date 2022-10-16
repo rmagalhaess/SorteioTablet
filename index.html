@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+    <head>
+		<meta charset="utf-8">
+        <title>Sorteio do Tablet</title>
+        <link rel="stylesheet" href="main.css" type="text/css">
+		<link rel="stylesheet" href="rms.css">
+        <script type="text/javascript" src="Winwheel.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    </head>
+    <body>
+	
+		<div class="placa">
+			<div class="texto">
+				<span class="jokerman titulo">Sorteio do Tablet</span>
+				<span class="jokerman sombra">Sorteio do Tablet</span>
+			</div>
+		</div>
+		
+        <div class="sorteio">
+            <table cellpadding="0" cellspacing="0" border="0">
+			<tr>
+                <td>
+                    <div class="power_controls">
+                        <hr>
+						<u>Diretor:</u><br>
+						Edson<br>
+						<hr>
+						<u>Professores:</u><br>
+						Antônio Izo<br>
+						Ricardo de Magalhães<br>
+                        <hr>
+                        <table class="power" cellpadding="10" cellspacing="0">
+                            <tr>
+                                <th align="center">Giro</th>
+                            </tr>
+                            <tr>
+                                <td width="130" align="center" id="IG3" onClick="Intensidade_Giro(3);">Forte</td>
+                            </tr>
+                            <tr>
+                                <td align="center" id="IG2" onClick="Intensidade_Giro(2);">Médio</td>
+                            </tr>
+                            <tr>
+                                <td align="center" id="IG1" onClick="Intensidade_Giro(1);">Fraco</td>
+                            </tr>
+                        </table>
+                        <br>
+						<button class="ativar" id="bto_girar" onClick="Girar_Roda();"> Girar </button>
+                        <br><br>
+						<button class="ativar" id="bto_testar" onClick="testa_Varios();"> Vários </button>
+                        <br><br>
+                        <center><a id="reiniciar" class="reiniciar" href="#" onClick="Posicionar_Roda(); return false;">Reiniciar...</a></center>
+                    </div>
+                </td>
+                <td width="504" height="670" class="the_wheel" align="center" valign="center">
+                    <canvas id="canvas" width="500" height="500">
+                        <p style="{color: white}" align="center">CANVAS não é aceito...</p>
+                    </canvas>
+                </td>
+				<td> 
+					<div id="listar_Testes"> </div>
+				</td>
+            </tr>
+			</table>
+		
+			<div id="Resultado" class="janela">
+			<div class="jan_Conteudo">
+				<div class="jan_Controle">
+					<span onclick="DOM_get('Resultado').style.display='none'" class="jan_Botao">&times;</span>
+				</div>
+				<div id="nome_sorteado">
+					texto da mensagem anunciando quem venceu.
+				</div>
+				<div class="jan_Controle"> </div>
+			</div>
+			</div>
+		</div>
+        <script>
+			function DOM_get( p_Nome ) 
+			{ 
+				//console.log("DOM_get", p_Nome);
+				return document.getElementById(p_Nome);
+			}
+			
+
+			// -------------------------------------------------------------------------
+			//
+			// -------------------------------------------------------------------------
+			let cont_teste = 0;
+			let lista_sorteados = [];
+			function testa_Varios()
+			{
+				exibir_Resultado = false;				
+				DOM_get("listar_Testes").innerHTML = "Começando....<br>";
+				Roda_Fortuna.animation.callbackFinished = Exibir_Teste;
+				
+				{
+					wheelPower = 3; 
+					Posicionar_Roda();
+					Intensidade_Giro(wheelPower);
+					Girar_Roda();
+				}
+				
+				Roda_Fortuna.animation.callbackFinished = Exibir_Sorteio;
+			}
+			
+			// ------------------------------------------------------------------------------------------------
+			// não está funcionando, deve ter conflito com outros CALLBACK'S dentro de "winWheel.js"
+			// ------------------------------------------------------------------------------------------------
+			function Exibir_Teste(indicatedSegment)
+			{
+				console.log(" %%% Exibir_Teste()", "INI", cont_teste);
+				
+				DOM_get("listar_Testes").innerHTML += cont_teste + ") " + indicatedSegment.text + "<br>";
+				
+				if ( cont_teste < 10 )
+				{
+					testa_Varios();
+				}
+				
+				console.log(" %%% Exibir_Teste()", "FIM", cont_teste);
+			}
+			
+		
+			// ------------------------------------------------------------------------------------------------
+			// Define segments including colour and text.
+			let participantes = [                               
+                   {'fillStyle' : '#FF6A00', 'text' : 'Cauã'},
+                   {'fillStyle' : '#FF6A00', 'text' : 'Gabriely'},
+                   {'fillStyle' : '#FF6A00', 'text' : 'Gabriel Pirovani'},
+				   {'fillStyle' : '#FF6A00', 'text' : 'Kalel'},
+				   {'fillStyle' : '#FF6A00', 'text' : 'Lorenzo Alves'},
+				   
+                   {'fillStyle' : '#F7FF1E', 'text' : 'Amanda'},				   
+                   {'fillStyle' : '#F7FF1E', 'text' : 'Ana Luisa'},
+                   {'fillStyle' : '#F7FF1E', 'text' : 'Ana Rosa'},
+                   {'fillStyle' : '#F7FF1E', 'text' : 'Joanameire'},
+                   {'fillStyle' : '#F7FF1E', 'text' : 'Lucas Viguini'},
+				   
+				   {'fillStyle' : '#7F3384', 'text' : 'Caio', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#7F3384', 'text' : 'Gabriel Nalim', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#7F3384', 'text' : 'Karol', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#7F3384', 'text' : 'Nicole', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#CE00DC', 'text' : 'Renata'},
+				   
+				   {'fillStyle' : '#FF7F7F', 'text' : 'Lúcio'},
+                   {'fillStyle' : '#FF7F7F', 'text' : 'Marcos'},
+                   {'fillStyle' : '#FF7F7F', 'text' : 'Stéphano'},
+                   {'fillStyle' : '#FF7F7F', 'text' : 'Thalles'},
+                   {'fillStyle' : '#FF7F7F', 'text' : 'Vinícius'},
+				   
+                   {'fillStyle' : '#FFA57F', 'text' : 'Bruno'},
+                   {'fillStyle' : '#FFA57F', 'text' : 'Gabriel Fossi'},
+                   {'fillStyle' : '#FFA57F', 'text' : 'Lorenzo Rainha'},
+				   {'fillStyle' : '#FFA57F', 'text' : 'Lucas Altoé'},
+				   
+				   {'fillStyle' : '#505050', 'text' : 'Maria Eduarda', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#505050', 'text' : 'Tainá Sofia', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#505050', 'text' : 'Yasmim', 'textFillStyle' : '#ffffff'},
+				   
+				   {'fillStyle' : '#303030', 'text' : 'Ana Clara', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#303030', 'text' : 'Geovana', 'textFillStyle' : '#ffffff'},
+				   {'fillStyle' : '#303030', 'text' : 'Lucas Ferri', 'textFillStyle' : '#ffffff'},
+                   {'fillStyle' : '#303030', 'text' : 'Nícolas', 'textFillStyle' : '#ffffff' },
+				   {'fillStyle' : '#303030', 'text' : 'Rafael', 'textFillStyle' : '#ffffff' }
+                ];
+		
+            // Create new wheel object specifying the parameters at creation time.
+
+				// Vars used by the code in this page to do power controls.
+				let wheelPower    = 0;
+				let wheelSpinning = false;
+
+			function Roda_Sorteio( p_Participantes )
+			{
+				console.log("##", cont_teste, "Roda_Sorteio");
+				
+				let quant_giros = Math.floor(Math.random() * 3) + 5;
+				let duracao = Math.floor(Math.random() * 7) + 5;
+			
+				return new Winwheel({
+										'outerRadius'     : 250,        // Set outer radius so wheel fits inside the background.
+										'innerRadius'     : 75,         // Make wheel hollow so segments don't go all way to center.
+										'textFontSize'    : 12,         // Set default font size for the segments.
+										'textOrientation' : 'vertical', // Make text vertial so goes down from the outside of wheel.
+										'textAlignment'   : 'outer',    // Align text to outside of wheel.
+										'numSegments'     : p_Participantes.length, 
+										'segments'        : p_Participantes,
+										'animation' :           // Specify the animation to use.
+										{
+											'type'     : 'spinToStop',
+											'duration' : duracao,         // Duration in seconds.
+											'spins'    : quant_giros,     // Default number of complete spins.
+											'callbackFinished' : Exibir_Sorteio,
+											'callbackSound'    : tocar_Audio,   // Function to call when the tick sound is to be triggered.
+											'soundTrigger'     : 'pin'        // Specify pins are to trigger the sound, the other option is 'segment'.
+										},
+										'pins' :				// Turn pins on.
+										{
+											'number'     : p_Participantes.length,
+											'fillStyle'  : 'silver',
+											'outerRadius': 4,
+										}
+									});
+			}
+			
+			let Roda_Fortuna = Roda_Sorteio( participantes );
+			console.log("Roda_Fortuna", Roda_Fortuna);
+
+            // Loads the tick audio sound in to an audio object.
+            let audio = new Audio('tick.mp3');
+
+            // This function is called when the sound is to be played.
+            function tocar_Audio()
+            {
+                // Stop and rewind the sound if it already happens to be playing.
+                audio.pause();
+                audio.currentTime = 0;
+
+                // Play the sound.
+                audio.play();
+            }
+
+            // -------------------------------------------------------
+            // Function to handle the onClick on the power buttons.
+            // -------------------------------------------------------
+            function Intensidade_Giro(powerLevel)
+            {
+				console.log("##", cont_teste, "Intensidade_Giro", powerLevel);
+
+				// RE-Distribui os participantes:
+					let original = JSON.parse(JSON.stringify(participantes));
+					let quant = original.length;
+					let listagem = [];
+					let n = 0;
+					let i = 0;
+					for(i=0; i<quant; i++)
+					{
+						n = Math.floor(Math.random() * original.length);
+						n = ( n === original.length ? (original.length-1) : n );
+						let pessoa = original.splice(n,1);
+						listagem[i] = pessoa[0];
+					}
+					Roda_Fortuna = Roda_Sorteio( listagem );
+					Roda_Fortuna.draw();
+
+                // Ensure that power can't be changed while wheel is spinning.
+                if (wheelSpinning == false) 
+				{
+                    // Reset all to grey incase this is not the first time the user has selected the power.
+                    DOM_get('IG1').className = "";
+                    DOM_get('IG2').className = "";
+                    DOM_get('IG3').className = "";
+
+                    // Now light up all cells below-and-including the one selected by changing the class.
+                    if (powerLevel >= 1) {
+                        DOM_get('IG1').className = "IG1";
+                    }
+
+                    if (powerLevel >= 2) {
+                        DOM_get('IG2').className = "IG2";
+                    }
+
+                    if (powerLevel >= 3) {
+                        DOM_get('IG3').className = "IG3";
+                    }
+
+                    // Set wheelPower var used when spin button is clicked.
+                    wheelPower = powerLevel;
+					
+					exibir_Ajuste_Giro = true;
+					Ajustar_Giro();
+                }
+            }
+			
+			// -------------------------------------------------------------------------------------
+			//
+			// -------------------------------------------------------------------------------------
+			let exibir_Ajuste_Giro = true;
+			function Ajustar_Giro()
+			{
+				console.log("##", cont_teste, "Ajustar_Giro", wheelPower);
+				
+				wheelPower = wheelPower||1;
+				
+				let val_Referencia = 2**wheelPower;
+				Roda_Fortuna.animation.spins = Math.floor(Math.random() * val_Referencia) + val_Referencia;
+				Roda_Fortuna.animation.duration = Math.floor(Math.random() * 10) + 10;
+				
+				if ( exibir_Ajuste_Giro )
+				{
+					//DOM_get('IG'+wheelPower).innerHTML += ' ' + Roda_Fortuna.animation.spins;
+				}
+			}
+
+            // -------------------------------------------------------
+            // Click handler for spin button.
+            // -------------------------------------------------------
+            function Girar_Roda()
+            {
+				console.log("##", cont_teste, "Girar_Roda");
+				
+                // Ensure that spinning can't be clicked again while already running.
+                if (wheelSpinning == false) 
+				{
+					DOM_get("reiniciar").className += " piscar";
+				
+                    // Begin the spin animation by calling startAnimation on the wheel object.
+                    Roda_Fortuna.startAnimation();
+
+                    // Set to true so that power can't be changed and spin button re-enabled during
+                    // the current animation. The user will have to reset before spinning again.
+                    wheelSpinning = true;
+                }
+            }
+
+            // -------------------------------------------------------
+            // Function for reset button.
+            // -------------------------------------------------------
+            function Posicionar_Roda()
+            {
+				console.log("##", cont_teste, "Posicionar_Roda");
+				
+				DOM_get("reiniciar").className = "reiniciar";
+			
+                Roda_Fortuna.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
+                Roda_Fortuna.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
+                Roda_Fortuna.draw();                // Call draw to render changes to the wheel.
+
+                DOM_get('IG1').className = "";  // Remove all colours from the power level indicators.
+				DOM_get('IG1').innerHTML = "Fraco";
+				
+                DOM_get('IG2').className = "";
+				DOM_get('IG2').innerHTML = "Médio";
+				
+                DOM_get('IG3').className = "";
+				DOM_get('IG3').innerHTML = "Forte";
+
+                wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+            }
+
+            // -------------------------------------------------------
+            // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
+            // -------------------------------------------------------
+            let exibir_Resultado = true;
+			function Exibir_Sorteio(indicatedSegment)
+            {
+				//console.log("##", cont_teste, "Exibir_Sorteio", indicatedSegment);
+				
+				if ( exibir_Resultado == true )
+				{
+					//alert("Quem venceu foi: " + indicatedSegment.text);
+					DOM_get("Resultado").style.display = "block";
+					DOM_get("nome_sorteado").innerHTML = "<br>Quem venceu foi: " + indicatedSegment.text + "<br><br>";
+				}
+				else
+				{
+					console.log(" %%% Exibir_Teste()", "INI", cont_teste);
+					
+					let obj = new Object();
+					obj.text = indicatedSegment.text;
+					obj.fillStyle = indicatedSegment.fillStyle;
+					obj.textFillStyle = indicatedSegment.textFillStyle;	
+					obj.wheelPower = wheelPower;
+					obj.spins = Roda_Fortuna.animation.spins;
+					obj.duration = Roda_Fortuna.animation.duration;
+					lista_sorteados.push(obj); //cont_teste + ") " + indicatedSegment.text + "<br>");
+
+					cont_teste++;
+					if ( cont_teste < 30 )
+					{
+						testa_Varios();
+					}
+					else
+					{
+						//console.log("lista_sorteados", lista_sorteados);
+						for( let i=0; i<lista_sorteados.length; i++)
+						{
+							let obj = lista_sorteados[i];	
+							let span = "<span style='background-color: "+obj.fillStyle+"; color: "+obj.textFillStyle+"'>"+obj.text+"/"+obj.spins+"/"+obj.duration+"</span>";
+							DOM_get("listar_Testes").innerHTML += i + ") " + span + "<br>";
+						}
+						
+						exibir_Resultado = true;
+					}
+					
+					console.log(" %%% Exibir_Teste()", "FIM", cont_teste);				
+				}
+            }
+			
+        </script>
+			<hr>
+			Original: https://github.com/zarocknz/javascript-winwheel
+			<hr>
+    </body>
+</html>

@@ -1,0 +1,107 @@
+.janela{z-index:3;display:none;padding-top:100px;position:fixed;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,0.4);}
+.jan_Conteudo
+{
+		margin:auto;
+		background-image: linear-gradient(to left, #FF6A00, #F7FF1E, #7F3384, #FF7F7F, #FFA57F, #505050, #303030);
+		position:relative;
+		padding:0;outline:0;width:600px;}
+.jan_Botao{border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-align:center;cursor:pointer;position:absolute;right:0;top:0;}
+.jan_Botao:hover{color:#ffffff;background-color:#ff0000; }
+.jan_Controle{ height: 35px;}
+
+#nome_sorteado { background-color:#ffffff; font-size: 30px;}
+
+	body
+	{
+		text-align: center;
+		background-image: url("fundo.png");
+		background-repeat: repeat-y;
+		background-position: center;
+	}
+
+	.placa
+	{
+		width: 500px;
+		height: 80px;
+		margin: 0 auto;
+		background-image: linear-gradient(to right, #FF6A00, #F7FF1E, #7F3384, #FF7F7F, #FFA57F, #505050, #303030);
+		z-index: -5;
+	}
+	
+	.texto
+	{
+		width: 500px;
+		height: 75px;
+		background-color: #FFFFFF;
+		z-index: -4;
+	}
+
+	@font-face 
+	{
+		font-family: Jokerman;
+		src: url("JOKERMAN.TTF");
+	}
+	
+	.sorteio
+	{
+		width: 732px; /* 900 */
+		margin: 0 auto;
+		text-align: center;
+		justify-content: center;
+	}
+	
+	.ativar
+	{
+		font-family: Jokerman;
+		font-size: 32px;
+		background-color: gray;
+		border-radius: 5px;
+		width: 150px;
+		color: black;
+		transition: 0.5s;
+	}
+	.ativar:hover
+	{		
+		background-color: yellow;
+		color: red;
+	}
+
+	.jokerman
+	{
+		font-family: Jokerman;
+		font-size: 50px;
+		position: relative;
+	}
+
+	.titulo
+	{
+		background-image: linear-gradient(to right, #FF6A00, #F7FF1E, #7F3384, #FF7F7F, #FFA57F, #505050, #303030);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		z-index: 5;
+	}
+	
+	.sombra
+	{
+		color: #000000;
+		z-index: 4;
+		top: -73px;
+		left: 1px;
+	}
+	
+	.reiniciar
+	{
+		text-decoration: none;
+		background-color: aqua;
+		border: 1px solid blue;
+		border-radius: 4px;
+		padding: 5px;
+	}
+	
+	@keyframes variar { 50% { opacity: 0; } }
+	.piscar 
+	{
+	  animation: variar 1s linear infinite;
+	}
+
+	
